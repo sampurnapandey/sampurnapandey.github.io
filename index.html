@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perspective Geometry in Real Photographs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #f5f4f0;
+            --text: #2a2a2a;
+            --text-light: #6a6a6a;
+            --accent: #84937d;
+            --card: #ffffff;
+            --border: #e0dfd8;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            position: relative;
+        }
+
+        /* Subtle geometric background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                repeating-linear-gradient(90deg, transparent, transparent 99px, rgba(132,147,125,0.04) 99px, rgba(132,147,125,0.04) 100px),
+                repeating-linear-gradient(0deg, transparent, transparent 99px, rgba(132,147,125,0.04) 99px, rgba(132,147,125,0.04) 100px);
+            animation: gridMove 40s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(100px, 100px); }
+        }
+
+        /* Floating blob accent */
+        body::after {
+            content: '';
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(132,147,125,0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -200px;
+            right: -200px;
+            animation: blobFloat 25s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes blobFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-100px, 100px) scale(1.1); }
+        }
+
+        /* Navigation */
+        nav {
+            position: sticky;
+            top: 0;
+            background: rgba(245, 244, 240, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 1.25rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a.active {
+            color: var(--accent);
+        }
+
+        .nav-links a.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2.5rem 6rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Intro */
+        .intro {
+            margin-bottom: 5rem;
+        }
+
+        .intro-title {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+
+        .intro-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .intro-meta a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .intro-meta a:hover {
+            opacity: 0.7;
+        }
+
+        .intro-meta span {
+            color: var(--border);
+        }
+
+        .intro-text {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: var(--text-light);
+            max-width: 900px;
+        }
+
+        /* Exercise */
+        .exercise {
+            margin-bottom: 6rem;
+        }
+
+        .exercise-title {
+            font-family: 'Fraunces', serif;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2.5rem;
+            line-height: 1.25;
+        }
+
+        /* Raw photos with metadata */
+        .raw-comparison {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .raw-photo {
+            background: var(--card);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+            transition: transform 0.3s ease;
+        }
+
+        .raw-photo:hover {
+            transform: translateY(-4px);
+        }
+
+        .raw-photo img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-metadata {
+            padding: 1.25rem;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+        }
+
+        .photo-metadata-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .photo-metadata-text {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            line-height: 1.5;
+            font-family: 'Courier New', monospace;
+        }
+
+        /* Annotated section */
+        .annotated-section {
+            margin-bottom: 4rem;
+        }
+
+        .annotated-photo {
+            background: var(--card);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.04);
+            margin-bottom: 2rem;
+        }
+
+        .annotated-photo img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+            display: block;
+        }
+
+        .annotated-caption {
+            padding: 1rem 1.25rem;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* Observations */
+        .observations {
+            margin-bottom: 2rem;
+        }
+
+        .observations h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .observations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .observations li {
+            padding-left: 1.75rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .observations li::before {
+            content: '•';
+            position: absolute;
+            left: 0.5rem;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Analysis text */
+        .analysis-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+            max-width: 850px;
+        }
+
+        .analysis-text p {
+            margin-bottom: 1.25rem;
+        }
+
+        .analysis-text strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .formula {
+            background: var(--card);
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent);
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            color: var(--text);
+        }
+
+        /* Upvote */
+        .upvote-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .upvote-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.4rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s;
+            color: var(--text);
+        }
+
+        .upvote-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .upvote-btn.voted {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .raw-comparison {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .container {
+                padding: 3rem 1.5rem;
+            }
+
+            .nav-container {
+                padding: 0 1.5rem;
+            }
+
+            .intro-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-title">Introduction to Computer Vision • CS 4912</div>
+            <ul class="nav-links">
+                <li><a href="#" class="active">A1</a></li>
+                <li><a href="#" class="disabled">A2</a></li>
+                <li><a href="#" class="disabled">A3</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <section class="intro">
+            <h1 class="intro-title">Perspective Geometry in Real Photographs</h1>
+            
+            <div class="intro-meta">
+                <a href="mailto:sampurna.pandey_ug2023@ashoka.edu.in">sampurna.pandey_ug2023@ashoka.edu.in</a>
+                <span>•</span>
+                <span>Professor Raghavendra Singh</span>
+                <span>•</span>
+                <span>Spring 2026</span>
+            </div>
+
+            <div class="intro-text">
+                For this assignment, we explored how camera position and zoom affect the way photos look. I took pictures of the same scenes from different distances while adjusting the zoom to keep things roughly the same size in the frame. The goal was to see three classic effects in computer vision: how close-up portraits get weirdly distorted, how telephoto lenses make city streets look compressed, and the difference between perspective and orthographic projection.
+            </div>
+        </section>
+
+        <!-- EXERCISE 1 -->
+        <section class="exercise">
+            <h2 class="exercise-title">Exercise 1: Portrait — Perspective Distortion vs. Natural Proportions</h2>
+
+            <!-- Raw Photos with Metadata -->
+            <div class="raw-comparison">
+                <div class="raw-photo">
+                    <img src="images/portrait-close.jpg" alt="Close-up portrait">
+                    <div class="photo-metadata">
+                        <div class="photo-metadata-title">Close-up Configuration</div>
+                        <div class="photo-metadata-text">[Add your camera metadata here: e.g., Sony DSC-W750, 26mm, f/3.5, ISO 100]</div>
+                    </div>
+                </div>
+                <div class="raw-photo">
+                    <img src="images/portrait-zoom.jpg" alt="Zoomed portrait">
+                    <div class="photo-metadata">
+                        <div class="photo-metadata-title">Zoomed from Distance</div>
+                        <div class="photo-metadata-text">[Add your camera metadata here: e.g., Sony DSC-W750, 100mm, f/5.9, ISO 100]</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Annotated Photo 1 -->
+            <div class="annotated-section">
+                <div class="annotated-photo">
+                    <img src="images/portrait-close-annotated.jpg" alt="Annotated close-up">
+                    <div class="annotated-caption">Close-up • Annotated</div>
+                </div>
+
+                <div class="observations">
+                    <h3>What I Observed:</h3>
+                    <ul>
+                        <li>The subject's face appears slightly more prominent in the center</li>
+                        <li>The nose and mid-face project forward relative to the sides of the face</li>
+                        <li>The fence behind the subject spreads rapidly as it approaches the camera</li>
+                        <li>The vertical columns in the background converge strongly toward a vanishing point</li>
+                        <li>The nearest fence posts appear much thicker and more widely spaced than those farther away</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Annotated Photo 2 -->
+            <div class="annotated-section">
+                <div class="annotated-photo">
+                    <img src="images/portrait-zoom-annotated.jpg" alt="Annotated zoom">
+                    <div class="annotated-caption">Zoomed from Distance • Annotated</div>
+                </div>
+
+                <div class="observations">
+                    <h3>What I Observed:</h3>
+                    <ul>
+                        <li>Facial proportions appear calmer and more natural</li>
+                        <li>The nose no longer dominates relative to the cheeks</li>
+                        <li>The spacing between fence bars looks more uniform</li>
+                        <li>The background columns appear more parallel</li>
+                        <li>The entire scene feels slightly "flattened," with weaker depth cues</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Analysis -->
+            <div class="analysis-text">
+                <p>Importantly, this isn't because the zoom lens itself magically changes faces. The critical factor is that the camera is now much farther away from the subject.</p>
+
+                <p><strong>Why the close photo looks distorted:</strong><br>
+                When I stand close to the subject, the nose is physically closer to the camera than the ears. Even a few centimeters of depth difference becomes large relative to the total distance. This means the nose has a smaller Z than the ears. Since perspective projection uses the formula:</p>
+                
+                <div class="formula">x = fX/Z    and    y = fY/Z</div>
+
+                <p>Dividing by a smaller Z makes the nose project to a larger size on the image plane. At the same time, background structures like the fence and columns recede sharply in depth. Their Z values grow quickly, so their projected size shrinks rapidly. This causes dramatic line convergence, strong vanishing points, and exaggerated depth. This is why the image feels more three-dimensional and slightly distorted.</p>
+
+                <p><strong>Why the far/zoomed photo looks natural:</strong><br>
+                In the second image, I physically moved farther away from the subject. Now the nose and ears are both far from the camera. Their absolute depths are large, and the difference between their depths becomes tiny compared to the overall distance. Mathematically, if the nose is at depth Z and the ears are at depth Z + δ, and Z is very large, then 1/Z ≈ 1/(Z + δ). So they project to nearly the same scale. Zooming only increases the focal length f to restore framing—it doesn't change the geometry of the scene. The ratios X/Z and Y/Z remain almost constant across the face. As a result, facial proportions stabilize and appear natural. This configuration approaches the orthographic limit of perspective, where rays become nearly parallel and depth variation has little visual effect.</p>
+            </div>
+
+            <div class="upvote-section">
+                <button class="upvote-btn" onclick="vote(this, 'ex1')">
+                    👍 <span class="vote-count">0</span>
+                </button>
+                <span style="font-size: 0.85rem; color: var(--text-light);">Upvote if this helped</span>
+            </div>
+        </section>
+
+        <!-- EXERCISE 2 -->
+        <section class="exercise">
+            <h2 class="exercise-title">Exercise 2: Urban Scene — Telephoto Compression</h2>
+
+            <div class="raw-comparison">
+                <div class="raw-photo">
+                    <img src="images/urban-wide.jpg" alt="Wide urban scene">
+                    <div class="photo-metadata">
+                        <div class="photo-metadata-title">Wide Angle</div>
+                        <div class="photo-metadata-text">[Add your camera metadata here]</div>
+                    </div>
+                </div>
+                <div class="raw-photo">
+                    <img src="images/urban-tele.jpg" alt="Telephoto urban">
+                    <div class="photo-metadata">
+                        <div class="photo-metadata-title">Telephoto</div>
+                        <div class="photo-metadata-text">[Add your camera metadata here]</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="annotated-section">
+                <div class="annotated-photo">
+                    <img src="images/urban-wide-annotated.jpg" alt="Annotated wide">
+                    <div class="annotated-caption">Wide Angle • Annotated</div>
+                </div>
+
+                <div class="observations">
+                    <h3>What I Observed:</h3>
+                    <ul>
+                        <li>[Add your observations for wide angle urban photo]</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="annotated-section">
+                <div class="annotated-photo">
+                    <img src="images/urban-tele-annotated.jpg" alt="Annotated telephoto">
+                    <div class="annotated-caption">Telephoto • Annotated</div>
+                </div>
+
+                <div class="observations">
+                    <h3>What I Observed:</h3>
+                    <ul>
+                        <li>[Add your observations for telephoto urban photo]</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="analysis-text">
+                <p>[Add your analysis for Exercise 2 here]</p>
+            </div>
+
+            <div class="upvote-section">
+                <button class="upvote-btn" onclick="vote(this, 'ex2')">
+                    👍 <span class="vote-count">0</span>
+                </button>
+                <span style="font-size: 0.85rem; color: var(--text-light);">Upvote if this helped</span>
+            </div>
+        </section>
+
+        <!-- EXERCISE 3 -->
+        <section class="exercise">
+            <h2 class="exercise-title">Exercise 3: Perspective vs. Orthographic-Like Projection</h2>
+
+            <div class="raw-comparison">
+                <div class="raw-photo">
+                    <img src="images/furniture-persp.jpg" alt="Perspective view">
+                    <div class="photo-metadata">
+                        <div class="photo-metadata-title">Perspective View</div>
+                        <div class="photo-metadata-text">[Add your camera metadata here]</div>
+                    </div>
+                </div>
+                <div class="raw-photo">
+                    <img src="images/furniture-ortho.jpg" alt="Orthographic view">
+                    <div class="photo-metadata">
+                        <div class="photo-metadata-title">Orthographic-Like View</div>
+                        <div class="photo-metadata-text">[Add your camera metadata here]</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="annotated-section">
+                <div class="annotated-photo">
+                    <img src="images/furniture-persp-annotated.jpg" alt="Converging lines">
+                    <div class="annotated-caption">Perspective View • Annotated</div>
+                </div>
+
+                <div class="observations">
+                    <h3>What I Observed:</h3>
+                    <ul>
+                        <li>[Add your observations for perspective furniture photo]</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="annotated-section">
+                <div class="annotated-photo">
+                    <img src="images/furniture-ortho-annotated.jpg" alt="Parallel lines">
+                    <div class="annotated-caption">Orthographic-Like View • Annotated</div>
+                </div>
+
+                <div class="observations">
+                    <h3>What I Observed:</h3>
+                    <ul>
+                        <li>[Add your observations for orthographic furniture photo]</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="analysis-text">
+                <p>[Add your analysis for Exercise 3 here]</p>
+            </div>
+
+            <div class="upvote-section">
+                <button class="upvote-btn" onclick="vote(this, 'ex3')">
+                    👍 <span class="vote-count">0</span>
+                </button>
+                <span style="font-size: 0.85rem; color: var(--text-light);">Upvote if this helped</span>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        function vote(btn, id) {
+            const key = `voted_${id}`;
+            const voted = localStorage.getItem(key);
+            const countEl = btn.querySelector('.vote-count');
+            let count = parseInt(countEl.textContent);
+            
+            if (voted) {
+                btn.classList.remove('voted');
+                localStorage.removeItem(key);
+                countEl.textContent = count - 1;
+            } else {
+                btn.classList.add('voted');
+                localStorage.setItem(key, '1');
+                countEl.textContent = count + 1;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            ['ex1', 'ex2', 'ex3'].forEach(id => {
+                if (localStorage.getItem(`voted_${id}`)) {
+                    document.querySelector(`button[onclick*="${id}"]`).classList.add('voted');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
