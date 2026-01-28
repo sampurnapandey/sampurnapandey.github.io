@@ -412,6 +412,7 @@
                 <span>Spring 2026</span>
                 <span></span>
                 <span>CS 4912</span>
+                <span></span>
                 <span><span/>
                     
             <div/>
@@ -431,14 +432,14 @@
                     <img src="images/portrait-close.jpg" alt="Close-up portrait">
                     <div class="photo-metadata">
                         <div class="photo-metadata-title">Close-up Configuration</div>
-                        <div class="photo-metadata-text">[Sony DSC-S750, 6.96mm, f/2.9, ISO 100]</div>
+                        <div class="photo-metadata-text">[SONY DSC-S750, 6.96mm, f/2.9, ISO 100]</div>
                     </div>
                 </div>
                 <div class="raw-photo">
                     <img src="images/portrait-zoom.jpg" alt="Zoomed portrait">
                     <div class="photo-metadata">
                         <div class="photo-metadata-title">Zoomed from Distance</div>
-                        <div class="photo-metadata-text">[Sony DSC-S750, 9.28mm, f/2.9, ISO 100]</div>
+                        <div class="photo-metadata-text">[SONY DSC-S750, 9.28mm, f/2.9, ISO 100]</div>
                     </div>
                 </div>
             </div>
@@ -483,7 +484,7 @@
 
             <!-- Analysis -->
             <div class="analysis-text">
-                <p>Moreso, this isn't because the zoom lens itself magically changes faces. The critical factor is that the camera is now much farther away from the subject.</p>
+                <p> For the first experiment, we photographed the same person in front of a colonnaded building and metal fence using two different camera configurations on a SONY DSC-S750. The goal was to isolate the effect of camera distance on facial proportions while keeping the subject approximately the same size in the final image.In the first image, the camera was positioned relatively close to the subject. In the second image, we stepped back about 3-4 feet and zoomed in to re-establish similar framing. Although both photographs contain the same person in the same location, they differ noticeably in how three-dimensional structure is rendered. This difference arises not from optical lens distortion, but from the geometry of perspective projection itself. The critical factor is that the camera is now much farther away from the subject.</p>
 
                 <p><strong>Why the close photo looks distorted:</strong><br>
                 When I stand close to the subject, the nose is physically closer to the camera than the ears. Even a few centimeters of depth difference becomes large relative to the total distance. This means the nose has a smaller Z than the ears. Since perspective projection uses the formula:</p>
@@ -500,7 +501,7 @@
                 <button class="upvote-btn" onclick="vote(this, 'ex1')">
                     👍 <span class="vote-count">0</span>
                 </button>
-                <span style="font-size: 0.85rem; color: var(--text-light);">Upvote if this helped</span>
+                <span style="font-size: 0.85rem; color: var(--text-light);">Upvote</span>
             </div>
         </section>
 
@@ -512,15 +513,15 @@
                 <div class="raw-photo">
                     <img src="images/urban-wide.jpg" alt="Wide urban scene">
                     <div class="photo-metadata">
-                        <div class="photo-metadata-title">Wide Angle</div>
-                        <div class="photo-metadata-text">[Add your camera metadata here]</div>
+                        <div class="photo-metadata-title">Far + Zoomed</div>
+                        <div class="photo-metadata-text">[Apple iPhone 13, 48mm, f/1.6, ISO 50]</div>
                     </div>
                 </div>
                 <div class="raw-photo">
                     <img src="images/urban-tele.jpg" alt="Telephoto urban">
                     <div class="photo-metadata">
-                        <div class="photo-metadata-title">Telephoto</div>
-                        <div class="photo-metadata-text">[Add your camera metadata here]</div>
+                        <div class="photo-metadata-title">Closer + Wide</div>
+                        <div class="photo-metadata-text">[Apple iphone 13, 28mm, f/1.6, ISO 50]</div>
                     </div>
                 </div>
             </div>
@@ -528,13 +529,17 @@
             <div class="annotated-section">
                 <div class="annotated-photo">
                     <img src="images/urban-wide-annotated.jpg" alt="Annotated wide">
-                    <div class="annotated-caption">Wide Angle • Annotated</div>
+                    <div class="annotated-caption">Far + Zoomed • Annotated</div>
                 </div>
 
                 <div class="observations">
                     <h3>What I Observed:</h3>
                     <ul>
-                        <li>[Add your observations for wide angle urban photo]</li>
+                        <li>The fence spans the foreground with nearly uniform spacing between its vertical bars</li>
+                        <li>The benches on the right appear stacked close together, with little visible separation in depth</li>
+                        <li>The central tree feels visually close to the playground equipment behind it</li>
+                        <li>The background building does not appear dramatically smaller than foreground structures</li>
+                        <li>Walkways and fence rails converge only weaklyThe entire scene feels flattened or compressed</li>
                     </ul>
                 </div>
             </div>
@@ -542,26 +547,31 @@
             <div class="annotated-section">
                 <div class="annotated-photo">
                     <img src="images/urban-tele-annotated.jpg" alt="Annotated telephoto">
-                    <div class="annotated-caption">Telephoto • Annotated</div>
+                    <div class="annotated-caption">Closer + Wide• Annotated</div>
                 </div>
 
                 <div class="observations">
                     <h3>What I Observed:</h3>
                     <ul>
-                        <li>[Add your observations for telephoto urban photo]</li>
+                        <li>The nearest fence posts appear thicker and farther apart than those farther away</li>
+                        <li>The benches recede rapidly into the distance</li>
+                        <li>The playground slide becomes much larger relative to the background trees and buildings</li>
+                        <li>Pavement seams angle sharply inward</li>
+                        <li>The building edges on the left converge strongly toward a vanishing point</li>
+                        <li>The overall scene feels much more three-dimensional</li>
                     </ul>
                 </div>
             </div>
 
             <div class="analysis-text">
-                <p>[Add your analysis for Exercise 2 here]</p>
+                <p>For the second experiment, we photographed a playground courtyard framed by apartment buildings, fences, benches, trees, and walkways using two different camera configurations. This scene was chosen because it contains many straight, parallel structures at different depths, such as fence rails, building edges, pavement seams, rows of benches, and tree trunks. These elements make the underlying projection geometry visually measurable.</p>
             </div>
 
             <div class="upvote-section">
                 <button class="upvote-btn" onclick="vote(this, 'ex2')">
                     👍 <span class="vote-count">0</span>
                 </button>
-                <span style="font-size: 0.85rem; color: var(--text-light);">Upvote if this helped</span>
+                <span style="font-size: 0.85rem; color: var(--text-light);">Upvote</span>
             </div>
         </section>
 
