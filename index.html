@@ -475,7 +475,7 @@
                     <ul>
                         <li>Facial proportions appear calmer and more natural</li>
                         <li>The nose no longer dominates relative to the cheeks</li>
-                        <li>The spacing between fence bars looks more uniform</li>
+                        <li>The spacing between fence bars looks more uniform, they line up more densely.</li>
                         <li>The background columns appear more parallel</li>
                         <li>The entire scene feels slightly "flattened," with weaker depth cues</li>
                     </ul>
@@ -487,14 +487,14 @@
                 <p> For the first experiment, we photographed the same person in front of a colonnaded building and metal fence using two different camera configurations on a SONY DSC-S750. The goal was to isolate the effect of camera distance on facial proportions while keeping the subject approximately the same size in the final image.In the first image, the camera was positioned relatively close to the subject. In the second image, we stepped back about 3-4 feet and zoomed in to re-establish similar framing. Although both photographs contain the same person in the same location, they differ noticeably in how three-dimensional structure is rendered. This difference arises not from optical lens distortion, but from the geometry of perspective projection itself. The critical factor is that the camera is now much farther away from the subject.</p>
 
                 <p><strong>Why the close photo looks distorted:</strong><br>
-                When I stand close to the subject, the nose is physically closer to the camera than the ears. Even a few centimeters of depth difference becomes large relative to the total distance. This means the nose has a smaller Z than the ears. Since perspective projection uses the formula:</p>
+                When we stand close to the subject, the nose is physically closer to the camera than the ears. Even a few centimeters of depth difference becomes large relative to the total distance. This means the nose has a smaller Z than the ears. Since perspective projection uses the formula:</p>
                 
                 <div class="formula">x = fX/Z    and    y = fY/Z</div>
 
                 <p>Dividing by a smaller Z makes the nose project to a larger size on the image plane. At the same time, background structures like the fence and columns recede sharply in depth. Their Z values grow quickly, so their projected size shrinks rapidly. This causes dramatic line convergence, strong vanishing points, and exaggerated depth. This is why the image feels more three-dimensional and slightly distorted.</p>
 
                 <p><strong>Why the far/zoomed photo looks natural:</strong><br>
-                In the second image, I physically moved farther away from the subject. Now the nose and ears are both far from the camera. Their absolute depths are large, and the difference between their depths becomes tiny compared to the overall distance. Mathematically, if the nose is at depth Z and the ears are at depth Z + δ, and Z is very large, then 1/Z ≈ 1/(Z + δ). So they project to nearly the same scale. Zooming only increases the focal length f to restore framing—it doesn't change the geometry of the scene. The ratios X/Z and Y/Z remain almost constant across the face. As a result, facial proportions stabilize and appear natural. This configuration approaches the orthographic limit of perspective, where rays become nearly parallel and depth variation has little visual effect.</p>
+                In the second image, we physically moved farther away from the subject. Now the nose and ears are both far from the camera. Their absolute depths are large, and the difference between their depths becomes tiny compared to the overall distance. Mathematically, if the nose is at depth Z and the ears are at depth Z + δ, and Z is very large, then 1/Z ≈ 1/(Z + δ). So they project to nearly the same scale. Zooming only increases the focal length f to restore framing, it doesn't change the geometry of the scene. The ratios X/Z and Y/Z remain almost constant across the face. As a result, facial proportions stabilize and appear natural.</p>
             </div>
 
             <div class="upvote-section">
@@ -532,6 +532,10 @@
                     <div class="annotated-caption">Far + Zoomed • Annotated</div>
                 </div>
 
+                <div class="analysis-text">
+                <p>For the second experiment, we photographed a playground courtyard framed by apartment buildings, fences, benches, trees, and walkways using two different camera configurations. This scene was chosen because it contains many straight, parallel structures at different depths, such as fence rails, building edges, pavement seams, rows of benches, and tree trunks. These elements make the underlying projection geometry visually measurable.</p>
+            </div>
+
                 <div class="observations">
                     <h3>What I Observed:</h3>
                     <ul>
@@ -539,7 +543,8 @@
                         <li>The benches on the right appear stacked close together, with little visible separation in depth</li>
                         <li>The central tree feels visually close to the playground equipment behind it</li>
                         <li>The background building does not appear dramatically smaller than foreground structures</li>
-                        <li>Walkways and fence rails converge only weaklyThe entire scene feels flattened or compressed</li>
+                        <li>Walkways and fence rails converge only weakly</li>
+                        <li>The entire scene feels flattened or compressed</li>
                     </ul>
                 </div>
             </div>
@@ -563,9 +568,7 @@
                 </div>
             </div>
 
-            <div class="analysis-text">
-                <p>For the second experiment, we photographed a playground courtyard framed by apartment buildings, fences, benches, trees, and walkways using two different camera configurations. This scene was chosen because it contains many straight, parallel structures at different depths, such as fence rails, building edges, pavement seams, rows of benches, and tree trunks. These elements make the underlying projection geometry visually measurable.</p>
-            </div>
+            
 
             <div class="upvote-section">
                 <button class="upvote-btn" onclick="vote(this, 'ex2')">
@@ -581,17 +584,17 @@
 
             <div class="raw-comparison">
                 <div class="raw-photo">
-                    <img src="images/furniture-persp.jpg" alt="Perspective view">
+                    <img src="images/.jpg" alt="Perspective view">
                     <div class="photo-metadata">
                         <div class="photo-metadata-title">Perspective View</div>
-                        <div class="photo-metadata-text">[Add your camera metadata here]</div>
+                        <div class="photo-metadata-text">[Apple iPhone 13, 48mm, f/1.6, ISO 50]</div>
                     </div>
                 </div>
                 <div class="raw-photo">
                     <img src="images/furniture-ortho.jpg" alt="Orthographic view">
                     <div class="photo-metadata">
                         <div class="photo-metadata-title">Orthographic-Like View</div>
-                        <div class="photo-metadata-text">[Add your camera metadata here]</div>
+                        <div class="photo-metadata-text">[Apple iPhone 13, 48mm, f/1.6, ISO 50]</div>
                     </div>
                 </div>
             </div>
