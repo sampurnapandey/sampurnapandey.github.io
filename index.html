@@ -655,13 +655,15 @@
                 </button>
                 <span style="font-size: 0.85rem; color: var(--text-light);">Upvote if this helped</span>
             </div>
-        </section>
 
-    </div>
+            <section class="exercise" style="margin-bottom: 0;">
+  <h2 class="exercise-title">Comments</h2>
+  <div class="analysis-text">
+    <p>React 👍 to upvote. Leave a comment and mention ex1/ex2/ex3 if relevant.</p>
+  </div>
 
-                     <div style="margin-top: 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem;">
-    <!-- giscus embed -->
-                         <script src="https://giscus.app/client.js"
+  <div style="margin-top: 1rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1rem;">
+    <script src="https://giscus.app/client.js"
         data-repo="sampurnapandey/sampurnapandey.github.io"
         data-repo-id="R_kgDORCnCvg"
         data-category="[ENTER CATEGORY NAME HERE]"
@@ -676,7 +678,12 @@
         crossorigin="anonymous"
         async>
 </script>
- 
+  </div>
+</section>
+
+            </div>
+
+                     
     <script>
         function vote(btn, id) {
             const key = `voted_${id}`;
